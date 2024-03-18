@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beau: automate client-facing workflows</title>
+    <link rel="icon" type="image/png" href="./img/favicon-16x16.png" />
+    <link rel="stylesheet" href="./output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://unpkg.com/alpinejs" defer></script>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    [x-cloak] {
+      display: none;
+    }
+
+    :root {
+      --black: #26282d;
+      --gray: #8b8f9a;
+      --lightgray: #f1f1f4;
+      --white: #ffffff;
+      --red: #ff563f;
+      --orange: #ff993f;
+      --green: #24bd67;
+      --purple: #7e76fc;
+      --blue: #2e92ff;
+      --yellow: #ffde6e;
+      --lightred: #ffb1a6;
+      --lightorange: #ffc38e;
+      --lightgreen: #88f1b6;
+      --lightpurple: #c1bdff;
+      --lightblue: #8ec4fe;
+      --lightyellow: #ffecad;
+    }
+
+    #box::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      border: 2px solid #fff;
+      border-radius: 4px;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+
+    .fa-bars {
+      display: none;
+    }
+    .hiddennav {
+      display: none;
+    }
+
+    @media screen and (max-width: 1200px) {
+      .navbaritems {
+        display: none;
+      }
+      .fa-bars {
+        display: block;
+      }
+      .navbarbg {
+        background: linear-gradient(6deg, #46c6a0, #26ac9d);
+      }
+      .show {
+        display: block !important;
+      }
+    }
+  </style>
+
+  <body class="bg-[#d9e2ef]">
+    <!-- Accept cookies alert && Contact Us box  -->
+    <!-- <div
+        class="w-[650px] h-20 m-5 p-5 bg-white border-2 border-gray-500 rounded sticky bottom-5 z-20 flex justify-between">
+        <div>
+            <h1 class="text-base font-medium">We use cookies to provide and improve ou services.</h1>
+            <span class="text-xs">By using our website you consent to cookies. <a href="" class="underline">Learn
+                    more</a></span>
+        </div>
+        <button type="button" class="w-40 h-10 text-white text-sm bg-gray-800 rounded-full hover:text-gray-500">Accept &
+            Close</button>
+
+    </div> -->
+
+    <!-- <div
+      class="w-12 h-12 m-5 bg-gray-500 rounded-full sticky bottom-5 left-full z-20 flex justify-center items-center hover:w-14 hover:h-14 transition-all cursor-pointer"
+    >
+      <i class="fa-solid fa-message fa-flip-horizontal text-2xl text-white"></i>
+    </div> -->
+
+    <div class="wrapper text-lg">
+      <div>
+        <nav
+          class="h-10 px-28 py-12 text-[#26282d] flex flex-row justify-between items-center"
+        >
+          <span class="text-3xl font-medium">beau</span>
+          <div>
+            <ul
+              x-data="{open : false, open1 : false,open2 : false}"
+              class="navbaritems w-[800px] flex justify-between items-center"
+              x-cloak
+            >
+              <li
+                x-on:mouseover="open = true"
+                x-on:mouseout="open = false"
+                class="relative py-2 px-3 hover:bg-black hover:text-white rounded"
+              >
+                <a href="">Product</a>
+                <span
+                  x-show="open"
+                  class="w-[200px] p-3 text-white bg-black flex flex-col absolute top-10 left-0 rounded *:p-2 [&>a:hover]:text-gray-500"
+                >
+                  <a href="">How it Works</a>
+                  <a href="">Integrations</a>
+                  <a href="">Templates</a>
+                  <a href="">No More Forms!</a>
+                </span>
+              </li>
+              <li
+                x-on:mouseover="open1 = true"
+                x-on:mouseout="open1 = false"
+                class="relative py-2 px-3 hover:bg-black hover:text-white rounded"
+              >
+                <a href="">Solutions</a>
+                <span
+                  x-show="open1"
+                  class="p-3 text-white bg-black flex absolute top-10 left-0 rounded [&>*>a:hover]:text-gray-500"
+                >
+                  <span class="w-[200px] *:p-2 flex flex-col">
+                    <a href="">Legal Industry</a>
+                    <a href="">Agencies</a>
+                    <a href="">Real Estate</a>
+                    <a href="">Venture Capital</a>
+                    <a href="">Healthcare</a>
+                    <a href="">Startups</a>
+                  </span>
+                  <span class="*:p-2 flex flex-col">
+                    <a href="">Accounting</a>
+                    <a href="">Human Resources</a>
+                    <a href="">Administrations</a>
+                    <a href="">Education</a>
+                    <a href="">Immigration</a>
+                    <a href="">Freelancers</a>
+                  </span>
+                </span>
+              </li>
+              <li>
+                <a
+                  href=""
+                  class="py-2 px-3 transition-all duration-300 hover:text-gray-500"
+                  >Pricing</a
+                >
+              </li>
+              <li
+                x-on:mouseover="open2 = true"
+                x-on:mouseout="open2 = false"
+                class="relative py-2 px-3 hover:bg-black hover:text-white rounded"
+              >
+                <a href="">Resources</a>
+                <span
+                  x-show="open2"
+                  class="w-[200px] p-3 text-white bg-black flex flex-col absolute top-10 left-0 rounded *:p-2 [&>a:hover]:text-gray-500"
+                >
+                  <a href="">About us</a>
+                  <a href="">Help Center</a>
+                  <a href="">Careers</a>
+                </span>
+              </li>
+              <li>
+                <a
+                  href=""
+                  class="py-2 px-3 transition-all duration-300 hover:text-gray-500"
+                  >Login</a
+                >
+              </li>
+              <li>
+                <a
+                  href=""
+                  class="mx-5 border-b-2 border-b-black transition-all duration-300 hover:border-b-transparent hover:text-gray-500"
+                  >Start a trial</a
+                >
+              </li>
+            </ul>
+            <i class="fa-solid fa-bars"></i>
+          </div>
+        </nav>
+
+        <!-- display of nav items when toggle nav icon has clicked -->
+        <div class="hiddennav bg-gradient-to-br from-[#46c6a0] to-[#26ac9d]">
+          <ul class="w-[78%] m-auto py-8 h-screen text-white text-2xl">
+            <li class="mb-4">
+              <a
+                href=""
+                class="transition-all duration-300 hover:text-[#ADEBE2]"
+                >Start a trail</a
+              >
+            </li>
+            <li class="mb-4">
+              <a
+                href=""
+                class="transition-all duration-300 hover:text-[#ADEBE2]"
+                >Product</a
+              >
+            </li>
+            <li class="mb-4">
+              <a
+                href=""
+                class="transition-all duration-300 hover:text-[#ADEBE2]"
+                >Solutions</a
+              >
+            </li>
+            <li class="mb-4">
+              <a
+                href=""
+                class="transition-all duration-300 hover:text-[#ADEBE2]"
+                >Pricing</a
+              >
+            </li>
+            <li class="mb-4">
+              <a
+                href=""
+                class="transition-all duration-300 hover:text-[#ADEBE2]"
+                >Resources</a
+              >
+            </li>
+            <li class="mb-4">
+              <a
+                href=""
+                class="transition-all duration-300 hover:text-[#ADEBE2]"
+                >Login</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="*:w-[90%] h-auto m-auto flex flex-col items-center gap-14 lg:flex-row lg:w-[85%] lg:h-screen"
+      >
+        <div class="w-2/4 *:my-3 flex flex-col justify-around lg:h-[50vh]">
+          <!-- product of the day box -->
+          <div
+            class="group w-[230px] h-14 p-2 text-sm border-2 border-gray-500/30 rounded-xl flex items-center hover:border-black duration-500"
+          >
+            <img class="h-8 object-cover" src="./img/medal.png" alt="" />
+            <div class="p-2">
+              <span class="text-gray-500 group-hover:text-red-500 duration-500"
+                >Product Hunt</span
+              >
+              <p>#1 Product of the Day</p>
+            </div>
+          </div>
+          <p class="text-4xl font-medium lg:text-7xl">
+            Automate client-facing workflows
+          </p>
+          <p class="text-lg">
+            Create a workflow, share a link, and get validated data extracted
+            from what your customers submit
+          </p>
+
+          <div class="flex flex-col justify-between relative">
+            <div class="relative max-w-[352px] h-[56px] md:h-[72px]">
+              <button
+                class="w-full h-full px-4 py-3 text-black bg-white -translate-x-2 -translate-y-2 hover:translate-x-0 hover:translate-y-0 outline-none rounded absolute z-10 transition-all"
+              >
+                Start a trial
+              </button>
+              <div
+                class="w-full h-full border-2 border-white rounded absolute top-2 left-2 z-0"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <!-- img div -->
+        <div class="w-2/4">
+          <img src="./img/Intro.png" alt="" />
+        </div>
+      </div>
+      <div class="mt-24 flex justify-center">
+        <img src="./img/activity.png" alt="" />
+      </div>
+      <div class="text-[#26282d] text-4xl text-center lg:text-6xl">
+        <p>Five key challenges.</p>
+        <p>One solution.</p>
+      </div>
+      <div
+        class="w-[70%] m-auto my-8 flex gap-5 justify-center flex-wrap lg:flex-row"
+      >
+        <div class="flex flex-col justify-between items-center">
+          <img src="./img/pin.png" alt="" />
+          <span>Collet forms</span>
+        </div>
+        <div class="flex flex-col justify-between items-center">
+          <img src="./img/mark.png" alt="" />
+          <span>Accept payments</span>
+        </div>
+        <div class="flex flex-col justify-between items-center">
+          <img src="./img/update.png" alt="" />
+          <span>Keep updated</span>
+        </div>
+        <div class="flex flex-col justify-between items-center">
+          <img src="./img/request.png" alt="" />
+          <span>Request details</span>
+        </div>
+        <div class="flex flex-col justify-between items-center">
+          <img src="./img/steps.png" alt="" />
+          <span>Approve steps</span>
+        </div>
+      </div>
+      <div class="w-[90%] m-auto my-20 lg:w-[80%]">
+        <fieldset class="p-4 px-6 border-4 border-white rounded">
+          <legend class="m-auto p-8">
+            <img src="./img/illustration.png" alt="" />
+          </legend>
+          <div class="h-auto p-0 flex flex-col lg:h-[220px] lg:p-8 lg:flex-row">
+            <p class="w-full text-3xl lg:text-5xl text-[#4e60b1]">
+              Build your process, share a link
+            </p>
+            <div class="flex flex-col justify-between">
+              <p>
+                Give your customers a central place to track their progress on
+                every step of your workflow and keep their details up to date!
+              </p>
+              <a href="">See how it works</a>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div
+        class="w-[85%] m-auto my-40 flex flex-col items-center gap-14 lg:flex-row"
+      >
+        <div>
+          <img src="./img/portal.png" alt="" />
+        </div>
+        <div class="p-6">
+          <p class="text-4xl mb-8 lg:text-6xl">
+            Interact with your Clients via
+            <span
+              class="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"
+            >
+              Portals
+            </span>
+          </p>
+          <p>
+            Stop sending nagging emails trying to keep things on track. Combine
+            form submissions, messages, payments, approvals to streamline
+            customer-facing processes.
+          </p>
+        </div>
+      </div>
+      <div
+        class="w-[85%] m-auto my-40 flex flex-col items-center gap-14 lg:flex-row"
+      >
+        <div class="p-6 text-right">
+          <p class="text-4xl mb-8 lg:text-6xl">
+            3x Completion Rate with
+            <span
+              class="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent"
+            >
+              Pages
+            </span>
+          </p>
+          <p>
+            Create a smooth and secure onboarding workflow to accelerate
+            conversion. Customers can be taken through your processes from start
+            to finish with Pages.
+          </p>
+        </div>
+        <div>
+          <img src="./img/page.png" alt="" />
+        </div>
+      </div>
+      <div
+        class="w-[85%] h-auto m-auto mb-28 bg-gradient-to-r from-[#b6eadf] to-[#b6ddea] flex flex-col justify-between lg:flex-row"
+      >
+        <div
+          class="w-[90%] h-auto m-auto mb-28 px-8 flex justify-center relative lg:w-[30%] lg:h-[80vh]"
+        >
+          <img class="lg:absolute lg:bottom-0" src="./img/dataset.png" alt="" />
+        </div>
+        <div class="w-[90%] mx-auto p-10 lg:w-[70%]">
+          <p class="text-3xl md:text-6xl">
+            Solution for Professional Services Businesses
+          </p>
+          <p class="my-5">
+            Beau helps to rapidly embrace your digital transformation strategy
+            with easy-to-use client-facing workflow automation.
+          </p>
+
+          <div class="relative">
+            <div
+              class="p-5 bg-white grid grid-cols-1 md:grid-cols-2 gap-8 rounded"
+              id="box"
+            >
+              <div>
+                <h2>Tailor the Experience</h2>
+                <p class="text-gray-500 text-base">
+                  Create step-by-step customer workflows according to your
+                  business processes in minutes.
+                </p>
+              </div>
+              <div>
+                <h2>Gather Data</h2>
+                <p class="text-gray-500 text-base">
+                  Collect submitted forms, documents, scans, images, and more
+                  from your clients with no hassle.
+                </p>
+              </div>
+              <div>
+                <h2>Automate the Flow of Work</h2>
+                <p class="text-gray-500 text-base">
+                  Deliver process automation that your teams love to use.
+                </p>
+              </div>
+              <div>
+                <h2>Online Payments</h2>
+                <p class="text-gray-500 text-base">
+                  Allow your clients to pay directly at your client portal.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-[70%] flex justify-center">
+            <a href="" class="my-8">See how it works</a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="w-[90%] m-auto mb-28 p-5 flex flex-col md:flex-row gap-20 lg:w-[80%]"
+      >
+        <div class="w-[300px]">
+          <img src="./img/puzzle.png" alt="" />
+        </div>
+        <div class="flex flex-col justify-between">
+          <h1 class="text-4xl lg:text-6xl">
+            Connect with the tools you
+            <span
+              class="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent"
+            >
+              already use
+            </span>
+          </h1>
+          <a href="">See Integrations</a>
+        </div>
+      </div>
+      <div class="w-[85%] m-auto relative">
+        <h1 class="px-8 text-6xl text-white">Some Sample Use Cases:</h1>
+        <div
+          class="*:p-8 *:flex *:flex-col *:items-center md:*:flex-row md:*:gap-4 md:*:h-[170px]"
+        >
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Startups</h1>
+            <p class="text-sm">
+              Startup Due Diligence for a VC, Content Promotion Process,
+              High-Touch Customer Onboarding for SaaS, Customer Support.
+            </p>
+          </div>
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Legal</h1>
+            <p class="text-sm">
+              Obtaining O1/O2 US visa, Law Firm Client Intake, Netherlands
+              Company Formation, Delaware C-corp Incorporation, Claim
+              Compensation, Legal Contract Drafting.
+            </p>
+          </div>
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">IT</h1>
+            <p class="text-sm">
+              Client Management for Freelancers, Podcast Publishing, Marketing
+              Campaign Management, Web Design Agency Client Workflow, Remote
+              Work Management, Website SEO Optimisation.
+            </p>
+          </div>
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Financial Services</h1>
+            <p class="text-sm">
+              Accounting Firm Workflow, Accounts Receivable Process, Vendor
+              Management, Tax Return, Investments Pipeline.
+            </p>
+          </div>
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Education</h1>
+            <p class="text-sm">
+              Course Opening, University enrollment, Tuition Reimbursement.
+            </p>
+          </div>
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Real Estate</h1>
+            <p class="text-sm">
+              Buy-Side Real Estate Management, Facilities management, Storage
+              Control, Real Estate Investment Management, Property Selling
+              Process, Brokerage Pipeline.
+            </p>
+          </div>
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Retail</h1>
+            <p class="text-sm">
+              New Franchise Opening analysis, Procurement Process, Sales
+              Pipeline.
+            </p>
+          </div>
+          <div class="border-b-2 border-white *:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Health Care</h1>
+            <p class="text-sm">
+              Dental Clinic Patient Intake, HIPAA Compliance, Electrical
+              Inspection in Hospitals.
+            </p>
+          </div>
+          <div class="*:w-full md:*:w-[50%]">
+            <h1 class="text-3xl">Human Resources</h1>
+            <p class="text-sm">
+              Employee Onboarding, Expense Management, Employment Termination,
+              Benefits Management, Hiring an Intern.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="h-60 md:h-80 m-auto my-10 p-10 bg-gradient-to-r from-[#78dfc0] to-[#69bdd1] sticky top-10 bottom-0 flex justify-between rounded"
+        >
+          <div class="flex flex-col justify-between relative">
+            <h1 class="text-white text-4xl md:text-6xl">Try Beau for free</h1>
+            <div class="relative max-w-[352px] h-[56px] md:h-[72px]">
+              <button
+                class="w-full h-full px-4 py-3 text-white bg-gray-800 -translate-x-2 -translate-y-2 hover:translate-x-0 hover:translate-y-0 outline-none rounded absolute z-10 transition-all"
+              >
+                Sign up
+              </button>
+              <div
+                class="w-full h-full border-2 border-green-600 rounded absolute top-2 left-2 z-0"
+              ></div>
+            </div>
+          </div>
+          <div class="md:inline-block hidden">
+            <img
+              class="h-[480px] relative top-[-70%]"
+              src="./img/try.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+      <div class="m-20">
+        <a
+          class="m-auto flex flex-col justify-center items-center gap-3 md:flex-row"
+          href="https://www.ycombinator.com/companies/beau"
+          target="_blank"
+        >
+          <p>Backed by</p>
+          <img class="w-[30px]" src="./img/y.png" alt="" />
+          <p>Combinator</p>
+        </a>
+      </div>
+      <div
+        class="w-[70%] m-auto mb-40 text-sm [&_a:hover]:text-gray-500 flex flex-col lg:flex-row justify-between gap-5 lg:gap-3"
+      >
+        <div
+          class="flex flex-wrap md:flex-row justify-center md:justify-between gap-16"
+        >
+          <div class="flex flex-col gap-2">
+            <h3 class="mb-4 tracking-[4px]">PRODUCT</h3>
+            <a href="">Start a trial / Login</a>
+            <a href="">How it works</a>
+            <a href="">Integrations</a>
+            <a href="">Templates</a>
+            <a href="">Pricing</a>
+          </div>
+          <div class="flex flex-col gap-2">
+            <h3 class="mb-4 tracking-[4px]">SOLUTIONS</h3>
+            <a href="">Legal Industry</a>
+            <a href="">Agencies</a>
+            <a href="">Real Estate</a>
+            <a href="">Venture Capital</a>
+            <a href="">Healthcare</a>
+          </div>
+          <div class="flex flex-col gap-2">
+            <h3 class="mb-4 tracking-[4px]">RESOURCES</h3>
+            <a href="">Help Center</a>
+            <a href="">About US</a>
+            <a href="">Careers</a>
+          </div>
+        </div>
+        <div
+          class="flex flex-wrap md:flex-row justify-center md:justify-between gap-16"
+        >
+          <div class="flex flex-col gap-2">
+            <h3 class="mb-4 tracking-[4px]">CONTACTS</h3>
+            <a href="">Chat with us</a>
+            <a href="">hello@beau.to</a>
+            <a href="">Twitter</a>
+            <a href="">LinkedIn</a>
+          </div>
+          <div class="flex flex-col gap-2">
+            <h3 class="mb-4 tracking-[4px]"></h3>
+            <span>Beaux, Inc.</span>
+            <span>2261 Market Street #4410</span>
+            <span>San Francisco, CA 94114</span>
+            <a href="">Terms of Service</a>
+            <a href="">Privacy Policy</a>
+            <a href="">Designed by Norde</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let toggleicon = document.querySelector(".fa-bars");
+      let nav = document.querySelector("nav");
+      let hiddennav = document.querySelector(".hiddennav");
+      toggleicon.addEventListener("click", () => {
+        toggleicon.classList.toggle("fa-xmark");
+        nav.classList.toggle("navbarbg");
+        hiddennav.classList.toggle("show");
+      });
+    </script>
+  </body>
+</html>
